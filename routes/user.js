@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
   }
 });
 // Define the route to get all registered users
-app.get('/User', async (req, res) => {
+router.get('/User', async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -43,7 +43,7 @@ app.get('/User', async (req, res) => {
 });
 
 // Define the route to get a single registered user by ID
-app.get('/User/:userId', async (req, res) => {
+router.get('/User/:userId', async (req, res) => {
   const userId = req.params.userId;
 
   try {
@@ -51,7 +51,7 @@ app.get('/User/:userId', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    else(){
+    else()=>{
     res.json(user);
     }
   } catch (error) {
