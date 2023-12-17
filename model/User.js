@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     age: {
-      type: String,
+      type: Number,
       required: true,
     },
     address: {
@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     phone: {
-      type: String,
+      type: Number,
       required: true,
     },
     createdAt: {
