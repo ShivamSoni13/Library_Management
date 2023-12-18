@@ -11,9 +11,10 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const userRoute = require('./routes/user');
+const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 const uri =
   'mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/?retryWrites=true&w=majority';
 
@@ -33,6 +34,17 @@ const authSchema = new mongoose.Schema({
 });
 
 const AuthUser = mongoose.model('AuthUser', authSchema);
+
+
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Passport configuration
 passport.use(
@@ -64,14 +76,6 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Routes
 app.post('/login', passport.authenticate('local'), (req, res) => {
   res.json({ message: 'Login successful', user: req.user });
@@ -96,6 +100,7 @@ app.get('/profile', isAuthenticated, (req, res) => {
 
 // User routes
 app.use('/api', userRoute);
+ 
 
 // Start the server
 app.listen(PORT, () => {
