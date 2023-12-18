@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy; 
@@ -84,6 +85,8 @@ const isAuthenticated = (req, res, next) => {
 app.get('/profile', isAuthenticated, (req, res) => {
   res.json({ message: 'Access to protected resource granted', user: req.user });
 });
+
+app.use(cors({ origin: 'http://localhost:5713/adminlogin', credentials: true }));
 
 // Start the server
 app.listen(PORT, () => {
