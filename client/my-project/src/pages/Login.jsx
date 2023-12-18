@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -7,18 +9,21 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/login', null, {
-        params: {
-          username,
-          password,
-        },
+      const response = await axios.post('http://localhost:3002/login', {
+        username,
+        password,
+      }, { withCredentials: true, 
+           mode: 'cors',
       });
-  
+
       console.log(response.data);
+      toast.success('Login successful');
     } catch (error) {
       console.error('Login failed', error);
+      toast.error('Login failed');
     }
   };
+
   return (
     <div className='h-full mt-20 py-5 mx-1 sm:border-2 sm:w-1/3 sm:mx-auto sm:overflow-hidden sm:mt-28 sm:rounded-md bg-blue-800'>
       <header className='text-center text-4xl my-5'>Admin Login</header>
@@ -55,6 +60,7 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };
