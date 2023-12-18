@@ -58,8 +58,9 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
+//error in updating will be solved when front end made
 // Check fee Status and Update it
-router.put('/update-fee-status/:userId', async (req, res) => {
+router.put("/update-fee-status/:userId", async (req, res) => {
   const { userId } = req.params;
   const { feeStatus } = req.body;
 
@@ -67,38 +68,35 @@ router.put('/update-fee-status/:userId', async (req, res) => {
     // Check if the user exists
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Update fee status
     user.feeStatus = feeStatus;
     await user.save();
 
-    return res.status(200).json({ message: 'Fee status updated successfully', user });
+    return res
+      .status(200)
+      .json({ message: "Fee status updated successfully", user });
   } catch (error) {
-    console.error('Error updating fee status:', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error updating fee status:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 // Delete user endpoint
-router.delete('/delete-user/:userId', async (req, res) => {
+router.delete("/delete-user/:userId", async (req, res) => {
   const { userId } = req.params;
-
   try {
     // Check if the user exists
-    const user = await User.findById(userId);
+    const user = await User.findByIdAndDelete(userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
-
-    // Delete the user
-    await user.remove();
-
-    return res.status(200).json({ message: 'User deleted successfully' });
+    return res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
-    console.error('Error deleting user:', error);
-    return res.status(500).json({ message: 'Internal Server Error' });
+    console.error("Error deleting user:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
