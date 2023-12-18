@@ -7,12 +7,10 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/login', null, {
-        params: {
-          username,
-          password,
-        },
-      });
+      const response = await axios.post('http://localhost:3001/login', {
+        username,
+        password,
+      }, { withCredentials: true });
   
       console.log(response.data);
     } catch (error) {

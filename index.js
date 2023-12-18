@@ -36,6 +36,10 @@ const authSchema = new mongoose.Schema({
 const AuthUser = mongoose.model('AuthUser', authSchema);
 
 
+app.post('/login', (req, res) => {
+  console.log('Login request received');
+  // ... rest of the code
+});
 
 // Middleware
 app.use(cors());
