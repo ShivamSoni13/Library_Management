@@ -12,12 +12,10 @@ const Login = () => {
       const response = await axios.post('http://localhost:3002/login', {
         username,
         password,
-      }, { withCredentials: true, 
-           mode: 'cors',
-      });
+      }, { withCredentials: true, mode: 'cors' });
 
       console.log(response.data);
-      toast.success('Login successful');
+      toast.success('Login successful'); 
     } catch (error) {
       console.error('Login failed', error);
       toast.error('Login failed');
