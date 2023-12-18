@@ -1,6 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
 
 const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('/login', { username, password });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Login failed', error);
+    }
+  };
+
   return (
     <div className='h-full mt-20 py-5 mx-1 sm:border-2 sm:w-1/3 sm:mx-auto sm:overflow-hidden sm:mt-28 sm:rounded-md bg-blue-800'>
       <header className='text-center text-4xl my-5'>Admin Login</header>

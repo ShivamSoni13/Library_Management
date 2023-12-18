@@ -1,10 +1,10 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
-import bcrypt from 'bcrypt';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
+const express = require('express');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy; 
+const bcrypt = require('bcrypt');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,13 +12,13 @@ const uri =
   "mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
-  .connect(uri)
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log("database is connected successfully on -> " + uri);
+    console.log("Database connected successfully on -> " + uri);
   })
   .catch((e) => {
-    console.log(e);
-  });;
+    console.error("Error connecting to the database:", e.message);
+  });
 
 // User schema
 const userSchema = new mongoose.Schema({
@@ -30,17 +30,19 @@ const User = mongoose.model('User', userSchema);
 
 // Passport configuration
 passport.use(new LocalStrategy((username, password, done) => {
-  User.findOne({ username }, (err, user) => {
-    if (err) return done(err);
-    if (!user) return done(null, false, { message: 'Incorrect username.' });
+  User.findOne({ username })
+    .then(user => {
+      if (!user) return done(null, false, { message: 'Incorrect username.' });
 
-    bcrypt.compare(password, user.password, (err, result) => {
-      if (err) return done(err);
-      if (!result) return done(null, false, { message: 'Incorrect password.' });
+      bcrypt.compare(password, user.password)
+        .then(result => {
+          if (!result) return done(null, false, { message: 'Incorrect password.' });
 
-      return done(null, user);
-    });
-  });
+          return done(null, user);
+        })
+        .catch(err => done(err));
+    })
+    .catch(err => done(err));
 }));
 
 passport.serializeUser((user, done) => {
@@ -85,5 +87,5 @@ app.get('/profile', isAuthenticated, (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on ` + PORT);
 });
