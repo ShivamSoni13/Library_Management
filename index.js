@@ -1,6 +1,5 @@
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-
 });
 
 const express = require('express');
@@ -15,8 +14,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-const uri =
-  'mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/your-database-name?retryWrites=true&w=majority';
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -25,6 +23,7 @@ mongoose
   })
   .catch((e) => {
     console.error('Error connecting to the database:', e.message);
+    process.exit(1); // Terminate the server on database connection error
   });
 
 // Auth schema
@@ -35,40 +34,38 @@ const authSchema = new mongoose.Schema({
 
 const AuthUser = mongoose.model('AuthUser', authSchema);
 
-
 app.post('/login', (req, res) => {
   console.log('Login request received');
-  // ... rest of the code
+  
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.SESSION_SECRET || 'your-default-secret-key', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Passport configuration
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    AuthUser.findOne({ username })
-      .then((user) => {
-        if (!user) return done(null, false, { message: 'Incorrect username.' });
+passport.use(new LocalStrategy((username, password, done) => {
+  AuthUser.findOne({ username })
+    .then((user) => {
+      if (!user) return done(null, false, { message: 'Incorrect username.' });
 
-        bcrypt
-          .compare(password, user.password)
-          .then((result) => {
-            if (!result) return done(null, false, { message: 'Incorrect password.' });
-
-            return done(null, user);
-          })
-          .catch((err) => done(err));
-      })
-      .catch((err) => done(err));
-  })
-);
+      bcrypt.compare(password, user.password)
+        .then((result) => {
+          if (!result) return done(null, false, { message: 'Incorrect password.' });
+          return done(null, user);
+        })
+        .catch((err) => done(err));
+    })
+    .catch((err) => done(err));
+}));
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -104,8 +101,8 @@ app.get('/profile', isAuthenticated, (req, res) => {
 
 // User routes
 app.use('/api', userRoute);
- 
 
+app.options('*', cors());
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
