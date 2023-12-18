@@ -1,43 +1,68 @@
-import React from 'react'
+import React, { useState } from 'react';
 
-function RegisterUser() {
+const RegisterUser = () => {
+  const formFields = [
+    { label: 'Name', type: 'text', name: 'name', placeholder: 'enter customer name' },
+    { label: 'Email', type: 'email', name: 'email', placeholder: 'enter customer email' },
+    { label: 'Age', type: 'number', name: 'age', placeholder: 'enter customer age' },
+    { label: 'Address', type: 'text', name: 'address', placeholder: 'enter customer address' },
+    { label: 'Phone', type: 'number', name: 'phone', placeholder: 'enter customer phone number' },
+  ];
+
+  const [formData, setFormData] = useState(
+    formFields.reduce((acc, field) => {
+      acc[field.name] = '';
+      return acc;
+    }, {})
+  );
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+
   return (
-    <div className=' h-screen bg-slate-200'>
-       <header className='text-center text-3xl sm:text-6xl'>Register a new Customer</header>
+    <div className='h-screen bg-slate-200'>
+      <header className='text-center text-3xl sm:text-6xl'>Register a new Customer</header>
 
-       <form action="" className='border-2 border-yellow-300  px-3 sm:px-2 bg-white flex flex-col  sm:w-1/3 w-full mx-auto sm:mt-10 py-5 sm:py-10 sm:rounded-md z-10 '>
-        
-        {/* <div className='bg-yellow-300 w-full sm:h-2 absolute top-0 right-0.5'></div> */}
-        <div className=' sm:border-none my-2 flex flex-col sm:flex sm:flex-row '>
-        <label htmlFor="" className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg '>Name</label>
-         <input type="text" className=' border sm:w-full  p-1 rounded-md sm:rounded-none' placeholder='enter customer name' />
+      <form
+        onSubmit={handleSubmit}
+        className='border-2 border-yellow-300 px-3 sm:px-2 bg-white flex flex-col sm:w-1/3 w-full mx-auto sm:mt-10 py-5 sm:py-10 sm:rounded-md z-10'
+      >
+        {formFields.map((field) => (
+          <div key={field.name} className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row'>
+            <label
+              htmlFor={field.name}
+              className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg'
+            >
+              {field.label}
+            </label>
+            <input
+              type={field.type}
+              name={field.name}
+              className='border sm:w-full p-1 rounded-md sm:rounded-none'
+              placeholder={field.placeholder}
+              value={formData[field.name]}
+              onChange={handleChange}
+            />
+          </div>
+        ))}
+
+        <div className='flex justify-center py-2'>
+          <button className='border bg-yellow-300 text-white p-2 w-1/3 rounded-md sm:w-28' type='submit'>
+            Register
+          </button>
         </div>
-
-       <div className=' sm:border-none my-2 flex flex-col sm:flex sm:flex-row '>
-         <label htmlFor="" className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg '>Email</label>
-         <input type="email" className='  border sm:w-full p-1 rounded-md sm:rounded-none' placeholder='enter customer email'/>
-       </div>
-
-        <div className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row '>
-            <label htmlFor="" className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg'>Age</label>
-         <input type="number" className='  border sm:w-full p-1 rounded-md sm:rounded-none' placeholder='enter customer age' />
-        </div>
-
-        <div className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row '>
-            <label htmlFor="" className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg'>Address</label>
-         <input type="text" className='  border sm:w-full p-1 rounded-md sm:rounded-none' placeholder='enter customer address '/>
-        </div>
-
-        <div className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row '>
-            <label htmlFor="" className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg '>Phone</label>
-         <input type="number" className='border sm:w-full p-1 rounded-md sm:rounded-none'  placeholder='enter customer phone number'/>
-        </div>
-
-        <div className='flex justify-center py-2'><button className='border bg-yellow-300 text-white p-2 w-1/3 rounded-md sm:w-28'>Register</button></div>
-       </form>
-
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterUser
+export default RegisterUser;
