@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const cron = require("node-cron");
 const User = require("../model/User.js");
 
 // Post Request for registering a new user
@@ -120,6 +121,28 @@ router.put("/update-user/:userId", async (req, res) => {
   } catch (error) {
     console.error("Error updating user details:", error);
     return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+cron.schedule('0 0 1 * *', async () => {
+  console.log('Cron job started');
+
+  try {
+    // Find users who have paid the fee
+    const usersToUpdate = await User.find({
+      feeStatus: true,
+    });
+
+    console.log(`Found ${usersToUpdate.length} users to update`);
+
+    // Update fee status to false for users who have paid
+    for (const user of usersToUpdate) {
+      user.feeStatus = false;
+      await user.save();
+      console.log(`Fee status updated for user ${user._id}`);
+    }
+  } catch (error) {
+    console.error('Error updating fee status:', error);
   }
 });
 
