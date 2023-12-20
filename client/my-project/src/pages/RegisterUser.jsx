@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterUser = () => {
   const formFields = [
-    { label: 'Name', type: 'text', name: 'name', placeholder: 'enter customer name' },
-    { label: 'Email', type: 'email', name: 'email', placeholder: 'enter customer email' },
-    { label: 'Age', type: 'number', name: 'age', placeholder: 'enter customer age' },
-    { label: 'Address', type: 'text', name: 'address', placeholder: 'enter customer address' },
-    { label: 'Phone', type: 'number', name: 'phone', placeholder: 'enter customer phone number' },
+    { label: 'Name', type: 'text', name: 'username', placeholder: 'Enter customer name' },
+    { label: 'Email', type: 'email', name: 'email', placeholder: 'Enter customer email' },
+    { label: 'Age', type: 'number', name: 'age', placeholder: 'Enter customer age' },
+    { label: 'Address', type: 'text', name: 'address', placeholder: 'Enter customer address' },
+    { label: 'Phone', type: 'number', name: 'phone', placeholder: 'Enter customer phone number' },
   ];
 
   const [formData, setFormData] = useState(
@@ -23,14 +27,36 @@ const RegisterUser = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    try {
+      const response = await axios.post('/register', formData);
+
+      if (response.status === 201) {
+        toast.success('User Registered Successfully');
+        navigate('/IdentificationPage');
+        setFormData(formFields.reduce((acc, field) => {
+          acc[field.name] = '';
+          return acc;
+        }, {}));
+      } else {
+        toast.error('Error Registering User');
+      }
+    } catch (error) {
+      console.error('Error Registering User:', error);
+  
+      // Log more details about the error
+      console.log('Error Details:', error.response);
+  
+      toast.error('Error Registering User');
+    }
   };
 
   return (
     <div className='h-screen bg-slate-200'>
-      <header className='text-center text-3xl sm:text-6xl'>Register a new Customer</header>
+      <header className='text-center text-3xl sm:text-6xl'>Register a New Customer</header>
 
       <form
         onSubmit={handleSubmit}
@@ -61,6 +87,8 @@ const RegisterUser = () => {
           </button>
         </div>
       </form>
+
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 };

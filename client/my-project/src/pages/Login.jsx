@@ -31,7 +31,7 @@ const Login = () => {
       toast.success('Login successful');
 
       // Redirect to the Register User page after successful login
-      navigate('/register');
+      navigate('/customersinfo');
     } catch (error) {
       console.error('Login failed', error);
       toast.error('Login failed');
