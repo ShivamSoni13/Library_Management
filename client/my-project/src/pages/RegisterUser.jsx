@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { userRequest } from '../util/requestMethod';
+import Navbar from '../components/Navbar';
 
 const RegisterUser = () => {
   const formFields = [
@@ -66,12 +67,15 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className='h-screen bg-slate-200'>
-      <header className='text-center text-3xl sm:text-6xl'>Register a New Customer</header>
+    <div className='h-full bg-slate-200 sm:py-4'>
+      <div>
+        <Navbar/>
+      </div>
+      <header className='text-center text-3xl sm:text-6xl my-5'>Register a New Customer</header>
 
       <form
         
-        className='border-2 border-yellow-300 px-3 sm:px-2 bg-white flex flex-col sm:w-1/3 w-full mx-auto sm:mt-10 py-5 sm:py-10 sm:rounded-md z-10'
+        className='border-2 border-yellow-300 px-3 sm:px-2 bg-white flex flex-col sm:w-1/3 w-full mx-auto sm:mt-10 py-5 sm:py-10 sm:rounded-md z-10 '
       >
         {formFields.map((field) => (
           <div key={field.name} className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row'>

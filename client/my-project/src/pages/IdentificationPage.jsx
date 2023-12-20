@@ -6,6 +6,7 @@ import imgIcon from '../../imageIcon.png';
 import { userRequest } from '../util/requestMethod';
 import { useParams } from 'react-router-dom';
 import UpdateDetails from './UpdateDetails';
+import Navbar from '../components/Navbar';
 
 function IdentificationPage() {
   const [identity, setIdentity] = useState({});
@@ -92,11 +93,14 @@ function IdentificationPage() {
 
   return (
     <div>
+      <div>
+        <Navbar/>
+      </div>
       <div className='border border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
         <div className='sm:w-1/4 border flex justify-center items-center w-full sm:h-56'>
-          <img className='sm:h-full' src={imgIcon} alt="imageIcon" />
+          <img className='sm:h-full w-1/2 sm:w-full' src={imgIcon} alt="imageIcon" />
         </div>
-        <div className='sm:w-1/2 border sm:flex sm:flex-col sm:items-center sm:p-2 sm:h-fit'>
+        <div className='sm:w-1/2 border sm:flex sm:flex-col sm:items-center sm:p-2 sm:h-fit cursor-pointer'>
           <div className='sm:flex border sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Name :</label>
             <span>{identity.username}</span>
@@ -129,14 +133,14 @@ function IdentificationPage() {
           </div>
         </div>
       </div>
-      <div className='sm:w-full sm:flex sm:justify-center sm:gap-10 sm:mt-14'>
-        <button onClick={() => setUpdateMode(true)} className='bg-blue-400 text-white p-2 rounded-md'>
+      <div className='flex  flex-col items-center gap-5 py-4  sm:w-full sm:flex-row sm:flex sm:justify-center sm:gap-10  '>
+        <button onClick={() => setUpdateMode(true)} className='bg-blue-400 text-white p-3 rounded-md  hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Update 
         </button>
-        <button onClick={handlePayFee} className='bg-green-600 text-white px-5 rounded-md'>
+        <button onClick={handlePayFee} className='bg-green-600 text-white p-3 rounded-md  hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out  w-1/3 sm:w-1/6'>
           Pay Fee
         </button>
-        <button onClick={handleDeleteUser} className='bg-red-600 text-white px-5 rounded-md'>
+        <button onClick={handleDeleteUser} className='bg-red-600 text-white p-3 rounded-md  hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Delete User
         </button>
       </div>

@@ -4,6 +4,7 @@ import Customer from '../components/Customer'
 import axios from 'axios';
 import { userRequest } from '../util/requestMethod';
 import { UserContext } from '../context/UserContext';
+import Navbar from '../components/Navbar';
 
 
 function Customers() {
@@ -24,6 +25,9 @@ function Customers() {
  
   return (
     <div>
+      <div>
+        <Navbar/>
+      </div>
         <div>
             <SearchCustomer/>
         </div>
