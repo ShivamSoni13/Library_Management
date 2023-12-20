@@ -16,7 +16,7 @@ const {customers}=useContext(UserContext);
 
   return (
     <div className='flex w-full sm:px-10 sm:justify-around sm:mt-5 '>
-        <div className=' border border-red-500 sm:h-80 sm:max-h-fit sm:w-1/3'>
+        <div className=' border border-red-500  sm:min-h-fit sm:w-1/3'>
            
             <header className='text-center text-xl my-1'>All customers list</header>
             <hr className='border-black'/>
@@ -35,7 +35,7 @@ const {customers}=useContext(UserContext);
                 
               }
         </div>
-        <div className=' border border-red-500 sm:w-1/3'>
+        <div className=' border border-red-500 sm:w-1/3 sm:h-fit'>
                         <header className='text-center text-xl my-1'>All Defaulters list</header>
                         <hr className='border-black'/>
              {
