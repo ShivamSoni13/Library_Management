@@ -14,7 +14,7 @@ function CustomerCard({name,phone,feeStatus,id}) {
     // }
   return (
     <div>
-        <div onClick={()=>(navigate("/identity/"+id))} className={`${feeStatus?'bg-green-300':'bg-red-400'} flex  border-2 justify-around py-2 rounded-md sm:mx-2 sm:my-2`}>
+        <div onClick={()=>(navigate("/identity/"+id))} className={`${feeStatus?'bg-green-300':'bg-red-400'} flex  border-2 justify-around py-2 rounded-md sm:mx-2 sm:my-2 cursor-pointer`}>
             <AccountCircleIcon/>
             <span>{name}</span>
             <span>{phone}</span>
