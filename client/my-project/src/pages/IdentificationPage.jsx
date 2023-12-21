@@ -96,7 +96,7 @@ function IdentificationPage() {
       <div>
         <Navbar/>
       </div>
-      <div className='border sm:drop-shadow-lg  border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
+      <div className='sm:border sm:drop-shadow-lg   sm:border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
         <div className='sm:w-1/4  flex justify-center items-center w-full sm:h-56'>
           <img className='sm:h-full w-1/2 sm:w-full' src={imgIcon} alt="imageIcon" />
         </div>
