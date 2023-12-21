@@ -1,11 +1,27 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom';
 
 function Navbar() {
+  // const handleLogout =async ()=>{
+  //   try {
+  //      await axios.get(
+  //       'http://localhost:3002/logout'
+  //     ).then(()=>{
+  //       console.log("successful logout");
+  //       navigate('/customersinfo');
+  //     }).catch((e)=>{
+  //       console.log(e);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     console.log("error in logout");
+  //   }
+  // }
    const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
-       <nav className="flex items-center justify-between flex-wrap px-2 sm:p-3 py-2  border">
+       <nav className="flex items-center justify-between flex-wrap px-2 sm:p-2 py-2 bg-navy text-orange-600 font-Ubuntu">
      {/* <div className="flex items-center flex-shrink-0 text-white mr-6 lg:mr-72">
        {/* <img src={locofy} className="w-100 h-10 mr-2" alt="Logo" /> 
      </div>  */}
@@ -32,9 +48,9 @@ function Navbar() {
        </button>
      </div>
      <div
-       className={`w-full block flex-grow lg:flex lg:items-center lg:w-auto ${isOpen ? "block" : "hidden"}`}
+       className={`w-full block flex-grow lg:flex lg:items-center  lg:w-auto ${isOpen ? "block" : "hidden"}`}
      >
-       <div className="text-sm lg:flex-grow my-4 sm:my-0 sm:flex sm:justify-start " >
+       <div className="text-sm lg:flex-grow my-4 sm:my-0 sm:flex sm:justify-start relative" >
          <NavLink to={'/customersinfo'}
          style={({ isActive }) => ({
                                 backgroundColor: isActive
@@ -42,7 +58,7 @@ function Navbar() {
                                     color: isActive && "white",
                                     fontStyle: isActive && "bold",      
                             })}
-          className="block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-4 sm:border p-2 sm:p-3 sm:bg-gray-400 rounded-md w-fit">
+          className="block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-4  p-2 sm:p-3 bg-orange-600 text-navy rounded-md w-fit">
            View Customers
          </NavLink>
          <NavLink to={'/register'}
@@ -52,7 +68,7 @@ function Navbar() {
                                     color: isActive && "white",
                                     fontStyle: isActive && "bold",      
                             })}
-         className="block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-4 sm:border p-2 sm:p-3 sm:bg-gray-400 rounded-md w-fit">
+         className="block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-4 p-2 sm:p-3 bg-orange-600 text-navy rounded-md w-fit">
            Register User
          </NavLink>
          {/* <a href="#" className="block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-4">
@@ -61,9 +77,13 @@ function Navbar() {
          <a href="#" className="block mt-4 lg:inline-block lg:mt-0 text-white-200 mr-4">
            Fourth Link
          </a> */}
+         <div className='text-orange-600 font-bold hidden sm:flex sm:absolute sm:top-0 sm:left-1/2 sm:-translate-x-1/2  sm:h-full sm:w-fit sm:justify-center sm:items-center sm:text-2xl'>
+            Library Admin Portal
        </div>
+       </div>
+       
        <div>
-         <button className="inline-flex items-center bg-red-500 border-0 py-2 px-4 text-white rounded-md">
+         <button onClick={handleLogout} className="inline-flex items-center bg-red-500 border-0 py-2 px-4 text-white rounded-md">
            Logout
          </button>
        </div>
