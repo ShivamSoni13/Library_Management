@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Customer() {
 const {customers}=useContext(UserContext);
+    const {filter}=useContext(UserContext);
+
 // useEffect(()=>{
 //     console.log(customers);
 // },[])
@@ -15,16 +17,16 @@ const {customers}=useContext(UserContext);
 // )
 
   return (
-    <div className='flex w-full sm:px-10 sm:justify-around sm:mt-5 '>
-        <div className=' border border-red-500  sm:min-h-fit sm:w-1/3'>
+    <div className='flex flex-col w-full sm:flex-row sm:px-10 sm:justify-around sm:mt-5  h-screen sm:pt-10 px-5 gap-4'>
+        <div className=' border sm:drop-shadow-lg blur-0  sm:h-3/4 sm:w-1/3 overflow-auto relative bg-orange-50'>
            
-            <header className='text-center text-xl my-1'>All customers list</header>
-            <hr className='border-black'/>
+            <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>All customers list</header>
+            {/* <hr className='border-black '/> */}
               {
-               customers.map((prop)=>(
+               customers.filter((data)=>data.username.toLowerCase().includes(filter.toLowerCase())).map((prop)=>(
                
-                    <CustomerCard  
-                key={prop._id}
+                <CustomerCard  
+             key={prop._id}
              name={prop.username}
              id={prop._id}
              address={prop.address}
@@ -35,9 +37,9 @@ const {customers}=useContext(UserContext);
                 
               }
         </div>
-        <div className=' border border-red-500 sm:w-1/3 sm:h-fit'>
-                        <header className='text-center text-xl my-1'>All Defaulters list</header>
-                        <hr className='border-black'/>
+        <div className=' border sm:drop-shadow-lg blur-0 sm:w-1/3 sm:h-fit overflow-auto relative bg-orange-50 '>
+                        <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>Fee not Paid</header>
+                        {/* <hr className='border-black'/> */}
              {
                customers.filter((data)=>(data.feeStatus===false)).map((prop)=>(
                      <CustomerCard 
