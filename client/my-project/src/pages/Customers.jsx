@@ -10,7 +10,7 @@ import Navbar from '../components/Navbar';
 function Customers() {
 
     //const[customers,setCustomers]=useState([]);
-    const {customers,setCustomers}=useContext(UserContext);
+    const {customers,setCustomers,filter}=useContext(UserContext);
     useEffect(()=>{
         const fetchData= async ()=>{
             const response= await userRequest.get("/user").then((prop)=>{
@@ -24,14 +24,14 @@ function Customers() {
     },[])
  
   return (
-    <div>
+    <div className='bg-khaki'>
       <div>
         <Navbar/>
       </div>
         <div>
             <SearchCustomer/>
         </div>
-            <header className='text-3xl text-center'>Customers</header>
+            <header className='text-3xl text-center my-5 sm:my-0 sm:pt-3'>Customers</header>
         <div>
             <Customer key={customers._id}
              name={customers.username}

@@ -67,18 +67,20 @@ const RegisterUser = () => {
   };
 
   return (
-    <div className='h-full bg-slate-200 sm:py-4'>
+    <div className='bg-khaki'>
       <div>
         <Navbar/>
       </div>
-      <header className='text-center text-3xl sm:text-6xl my-5'>Register a New Customer</header>
+
+       <div className='  sm:h-screen  sm:flex sm:justify-center sm:items-center'>
 
       <form
-        
-        className='border-2 border-yellow-300 px-3 sm:px-2 bg-white flex flex-col sm:w-1/3 w-full mx-auto sm:mt-10 py-5 sm:py-10 sm:rounded-md z-10 '
+        className=' bg-slate-50 flex flex-col sm:w-3/5 w-full mx-auto sm:mt-10 sm:drop-shadow-lg sm:blur-none shadow-black  sm:rounded-md z-10 sm:h-3/4 '
       >
-        {formFields.map((field) => (
-          <div key={field.name} className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row'>
+      <header className='text-center text-3xl sm:text-5xl py-3 bg-navy text-orange-600 sm:rounded-t-md'>Register a New Customer</header>
+        <div className='sm:my-3 sm:px-10 px-5'>
+          {formFields.map((field) => (
+          <div key={field.name} className='sm:border-none my-2 flex flex-col sm:flex sm:flex-row '>
             <label
               htmlFor={field.name}
               className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg'
@@ -88,20 +90,23 @@ const RegisterUser = () => {
             <input
               type={field.type}
               name={field.name}
-              className='border sm:w-full p-1 rounded-md sm:rounded-none'
+              className='border sm:w-full p-1 rounded-md sm:rounded-sm'
               placeholder={field.placeholder}
               value={formData[field.name]}
               onChange={handleChange}
             />
           </div>
         ))}
+        </div>
 
-        <div className='flex justify-center py-2'>
-          <button className='border bg-yellow-300 text-white p-2 w-1/3 rounded-md sm:w-28' type='submit' onClick={handleSubmit}>
+        <div className='flex justify-center py-2  sm:mt-5'>
+          <button className='border bg-navy text-orange-600 p-2 w-1/3 rounded-md sm:w-28' type='submit' onClick={handleSubmit}>
             Register
           </button>
         </div>
       </form>
+             </div>
+
 
       <ToastContainer position="bottom-right" autoClose={3000} />
     </div>

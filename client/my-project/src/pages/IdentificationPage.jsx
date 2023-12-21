@@ -92,42 +92,42 @@ function IdentificationPage() {
   }, [customerId]);
 
   return (
-    <div>
+    <div className='bg-khaki'>
       <div>
         <Navbar/>
       </div>
-      <div className='border border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
-        <div className='sm:w-1/4 border flex justify-center items-center w-full sm:h-56'>
+      <div className='border sm:drop-shadow-lg  border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
+        <div className='sm:w-1/4  flex justify-center items-center w-full sm:h-56'>
           <img className='sm:h-full w-1/2 sm:w-full' src={imgIcon} alt="imageIcon" />
         </div>
-        <div className='sm:w-1/2 border sm:flex sm:flex-col sm:items-center sm:p-2 sm:h-fit cursor-pointer'>
-          <div className='sm:flex border sm:w-full my-2'>
+        <div className='sm:w-1/2  sm:flex sm:flex-col sm:items-center sm:p-2 sm:h-fit cursor-pointer'>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Name :</label>
             <span>{identity.username}</span>
           </div>
-          <div className='sm:flex border sm:w-full my-2'>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Phone :</label>
             <span>{identity.phone}</span>
           </div>
-          <div className='sm:flex border sm:w-full my-2'>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Email :</label>
             <span>{identity.email}</span>
           </div>
-          <div className='sm:flex border sm:w-full my-2'>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Age :</label>
             <span>{identity.age}</span>
           </div>
-          <div className='sm:flex border sm:w-full my-2'>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Address :</label>
             <span>{identity.address}</span>
           </div>
-          <div className='sm:flex border sm:w-full my-2'>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date :</label>
             <span>{identity.updatedAt}</span>
           </div>
-          <div className='sm:flex border sm:w-full mt-2'>
+          <div className='sm:flex  sm:w-full mt-2 '>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Status :</label>
-            <span className={`${identity.feeStatus ? 'text-green-400' : 'text-red-400'}`}>
+            <span className={`${identity.feeStatus ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
               {identity.feeStatus ? "Paid" : "Pending/Not Paid"}
             </span>
           </div>

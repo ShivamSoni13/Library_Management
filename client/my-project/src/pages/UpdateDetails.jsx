@@ -20,9 +20,9 @@ function UpdateDetails({ onUpdate }) {
   };
 
   return (
-    <div className="bg-gray-100 p-4 rounded-md shadow-md mt-4">
-      <h2 className="text-2xl font-semibold mb-4">Update User Details</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="bg-khaki p-4 rounded-md shadow-md mt-4">
+      <h2 className="text-2xl font-semibold mb-4 text-center ">Update User Details</h2>
+      <form onSubmit={handleSubmit} className='sm:px-5'>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">Username:</label>
           <input
