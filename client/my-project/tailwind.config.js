@@ -13,6 +13,9 @@ export default {
         Roboto: ["Roboto", "sans-serif"],
         Ubuntu: ["Ubuntu", "sans-serif"],
       },
+      backgroundImage: {
+        img: "url('../login.jpg')",
+      },
     },
   },
   plugins: [],

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+//import {Img} from '../../login.jpg';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -44,9 +45,10 @@ const Login = () => {
   ];
 
   return (
-    <div className='h-full mt-20 py-5 mx-1 sm:border-2 sm:w-1/3 sm:mx-auto sm:overflow-hidden sm:mt-28 sm:rounded-md bg-blue-800'>
-      <header className='text-center text-4xl my-5'>Admin Login</header>
-      <form className='mx-5 flex flex-col my-3'>
+    <div className='h-screen bg-img bg-cover bg-center flex justify-center items-center overflow-x-hidden px-1 '>
+    <div className='h-fit w-full sm:w-2/5 sm:mx-auto sm:overflow-hidden  sm:rounded-md bg-khaki backdrop-brightness-75'>
+      <header className='text-center text-4xl  bg-navy font-bold text-orange-600 py-5'>Admin Login</header>
+      <form className='mx-5 flex flex-col my-3 font-Ubuntu'>
         {formFields.map((field) => (
           <div key={field.name} className='flex flex-col mt-2'>
             <label htmlFor={field.name}>{field.label}</label>
@@ -65,13 +67,14 @@ const Login = () => {
           <button
             type='button'
             onClick={handleLogin}
-            className='bg-blue-500 font-bold text-white px-3 py-2 text-2xl rounded-sm'
+            className='bg-orange-800 font-bold text-white px-3 py-2 text-2xl rounded-sm '
           >
             Login
           </button>
         </div>
       </form>
       <ToastContainer />
+    </div>
     </div>
   );
 };
