@@ -2,7 +2,18 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        khaki: "#FAEED1",
+        navy: "#192655",
+      },
+      fontFamily: {
+        Montserrat: ["Montserrat", "sans-serif"],
+        Raleway: ["Raleway", "sans-serif"],
+        Roboto: ["Roboto", "sans-serif"],
+        Ubuntu: ["Ubuntu", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };
