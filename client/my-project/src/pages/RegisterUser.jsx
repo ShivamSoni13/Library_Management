@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { userRequest } from '../util/requestMethod';
@@ -12,7 +11,7 @@ const RegisterUser = () => {
     { label: 'Email', type: 'email', name: 'email', placeholder: 'Enter customer email' },
     { label: 'Age', type: 'number', name: 'age', placeholder: 'Enter customer age' },
     { label: 'Address', type: 'text', name: 'address', placeholder: 'Enter customer address' },
-    { label: 'Phone', type: 'number', name: 'phone', placeholder: 'Enter customer phone number' },
+    { label: 'Phone', type: 'tel', name: 'phone', placeholder: 'Enter customer phone number' },
   ];
 
   const [formData, setFormData] = useState(
@@ -31,38 +30,65 @@ const RegisterUser = () => {
 
   const navigate = useNavigate();
 
+  const isEmailValid = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const isAgeValid = (age) => {
+    const ageInt = parseInt(age, 10);
+    return !isNaN(ageInt) && ageInt > 0;
+  };
+
+  const isPhoneValid = (phone) => {
+    // Simple phone number validation: must be numeric and at least 10 digits
+    return /^[0-9]{10,}$/.test(phone);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-       await userRequest.post('/register',formData).then(()=>{
-        toast.success('User Registered Successfully');
-              navigate('/customersinfo');
-              setFormData(formFields.reduce((acc, field) => {
-                  acc[field.name] = '';
-                  return acc;
-                }, {}));
-              }).catch(()=>{
-                toast.error('Error Registering User');
-                console.log('Error Registering User');
-              })
 
-      // if (response.status === 201) {
-      //   toast.success('User Registered Successfully');
-      //   navigate('/customersinfo');
-      //   setFormData(formFields.reduce((acc, field) => {
-      //     acc[field.name] = '';
-      //     return acc;
-      //   }, {}));
-      // } else {
-      //   toast.error('Error Registering User');
-      // }
+    // Validate email
+    if (!isEmailValid(formData.email)) {
+      toast.error('Invalid email format');
+      return;
+    }
+
+    // Validate age
+    if (!isAgeValid(formData.age)) {
+      toast.error('Invalid age');
+      return;
+    }
+
+    // Validate phone number
+    if (!isPhoneValid(formData.phone)) {
+      toast.error('Invalid phone number');
+      return;
+    }
+
+    // Check if any required field is missing
+    const missingFields = formFields.filter((field) => !formData[field.name]);
+    if (missingFields.length > 0) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+
+    try {
+      await userRequest.post('/register', formData).then(() => {
+        toast.success('Registration Successful');
+        navigate('/customersinfo');
+        setFormData(
+          formFields.reduce((acc, field) => {
+            acc[field.name] = '';
+            return acc;
+          }, {})
+        );
+      }).catch(() => {
+        toast.error('Error Registering User');
+        console.log('Error Registering User');
+      })
     } catch (error) {
-      //console.error('Error Registering User:', error);
-  
-      // Log more details about the error
       console.log('Error Details:', error.response);
-  
-      //toast.error('Error Registering User');
+      toast.error('Error Registering User');
     }
   };
 
@@ -74,7 +100,6 @@ const RegisterUser = () => {
       <header className='text-center text-3xl sm:text-6xl my-5'>Register a New Customer</header>
 
       <form
-        
         className='border-2 border-yellow-300 px-3 sm:px-2 bg-white flex flex-col sm:w-1/3 w-full mx-auto sm:mt-10 py-5 sm:py-10 sm:rounded-md z-10 '
       >
         {formFields.map((field) => (
@@ -92,6 +117,7 @@ const RegisterUser = () => {
               placeholder={field.placeholder}
               value={formData[field.name]}
               onChange={handleChange}
+              required
             />
           </div>
         ))}

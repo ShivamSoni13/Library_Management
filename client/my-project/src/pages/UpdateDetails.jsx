@@ -11,14 +11,44 @@ function UpdateDetails({ onUpdate }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    // Format Indian phone number as user types (e.g., +91 XXXXX-XXXXX)
+    if (name === 'phone' && value.length <= 10) {
+      const formattedPhone = value.replace(/(\d{5})(\d{5})/, '+91 $1-$2');
+      setFormData({ ...formData, [name]: formattedPhone });
+    }
+    // Format email as user types and validate format
+    else if (name === 'email') {
+      setFormData({ ...formData, [name]: value });
+
+      // Validate email format
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(value)) {
+        setErrors({ ...errors, [name]: 'Invalid email format' });
+      } else {
+        setErrors({ ...errors, [name]: '' });
+      }
+    }
+    // Format age as user types (e.g., restrict to two digits)
+    else if (name === 'age' && /^\d{0,2}$/.test(value)) {
+      setFormData({ ...formData, [name]: value });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validate email format before submitting
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(formData.email)) {
+      setErrors({ ...errors, email: 'Invalid email format' });
+      return;
+    }
+
     onUpdate(formData);
   };
-
   return (
     <div className="bg-gray-100 p-4 rounded-md shadow-md mt-4">
       <h2 className="text-2xl font-semibold mb-4">Update User Details</h2>
