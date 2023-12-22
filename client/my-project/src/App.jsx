@@ -6,8 +6,10 @@ import RegisterUser from './pages/RegisterUser';
 import Customers from './pages/Customers';
 import { UserContextProvider } from './context/UserContext';
 import IdentificationPage from './pages/IdentificationPage';
+import PageNotFound from './pages/PageNotFound';
 
 const App = () => {
+  const adminLogedin = localStorage.getItem('admin');
   return (
     <div className='font-Ubuntu'>
       <Router>
@@ -15,10 +17,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<RegisterUser />} />
-          <Route path="/customersinfo" element={<Customers/>} />
-          <Route path="/identity/:customerId" element={<IdentificationPage/>}/>
-          
+          {adminLogedin && <Route path="/register" element={<RegisterUser />} /> }
+         {adminLogedin && <Route path="/customersinfo" element={<Customers/>} />}
+          {adminLogedin && <Route path="/identity/:customerId" element={<IdentificationPage/>}/>}
+          <Route path='*' element={<PageNotFound/>}/>
         </Routes>
       </UserContextProvider>
       </Router>
