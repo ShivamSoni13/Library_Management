@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function UpdateDetails({ onUpdate }) {
   const [formData, setFormData] = useState({
     username: '',
+    father: '',
     email: '',
     age: '',
     address: '',
@@ -29,6 +30,16 @@ function UpdateDetails({ onUpdate }) {
             type="text"
             name="username"
             value={formData.username}
+            onChange={handleChange}
+            className="w-full border rounded-md p-2 focus:outline-none focus:border-blue-400"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600">Father:</label>
+          <input
+            type="text"
+            name="father"
+            value={formData.father}
             onChange={handleChange}
             className="w-full border rounded-md p-2 focus:outline-none focus:border-blue-400"
           />

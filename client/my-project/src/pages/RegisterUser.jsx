@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar';
 const RegisterUser = () => {
   const formFields = [
     { label: 'Name', type: 'text', name: 'username', placeholder: 'Enter customer name' },
+    { label: 'Father', type: 'text', name: 'father', placeholder: 'Enter Father name' },
     { label: 'Email', type: 'email', name: 'email', placeholder: 'Enter customer email' },
     { label: 'Age', type: 'number', name: 'age', placeholder: 'Enter customer age' },
     { label: 'Address', type: 'text', name: 'address', placeholder: 'Enter customer address' },
@@ -99,7 +100,7 @@ const RegisterUser = () => {
         ))}
         </div>
 
-        <div className='flex justify-center py-2  sm:mt-5'>
+        <div className='flex justify-center py-2  sm:mt-0'>
           <button className='border bg-navy text-orange-600 p-2 w-1/3 rounded-md sm:w-28' type='submit' onClick={handleSubmit}>
             Register
           </button>

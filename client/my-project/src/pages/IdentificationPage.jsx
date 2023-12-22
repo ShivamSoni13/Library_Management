@@ -106,6 +106,10 @@ function IdentificationPage() {
             <span>{identity.username}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Father :</label>
+            <span>{identity.father}</span>
+          </div>
+          <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Phone :</label>
             <span>{identity.phone}</span>
           </div>
