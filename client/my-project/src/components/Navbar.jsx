@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 function Navbar() {
   // const handleLogout =async ()=>{
@@ -18,6 +18,18 @@ function Navbar() {
   //     console.log("error in logout");
   //   }
   // }
+    const adminLogedin = localStorage.getItem('admin');
+    const navigate =useNavigate();
+
+  const handleLogout = async ()=>{
+       try{
+              localStorage.removeItem('admin');
+              navigate('/login');
+              window.location.reload();
+       }catch(e){
+             console.log(e);
+       }
+  }
    const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -83,7 +95,7 @@ function Navbar() {
        </div>
        
        <div>
-         <button  className="inline-flex items-center bg-red-500 border-0 py-2 px-4 text-white rounded-md">
+         <button onClick={handleLogout} className="inline-flex items-center bg-red-500 border-0 py-2 px-4 text-white rounded-md">
            Logout
          </button>
        </div>

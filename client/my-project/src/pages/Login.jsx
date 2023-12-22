@@ -26,17 +26,23 @@ const Login = () => {
         formData,
         { withCredentials: true, mode: 'cors' }
       );
+      
 
-      console.log(response.data);
+      //console.log(response.data);
 
       // Check if the user is logged in
       if (response.data.isLoggedIn) {
         // Redirect to the Register User page after successful login
+
         navigate('/customersinfo');
-      } else {
+        window.location.reload();
+      localStorage.setItem('admin',JSON.stringify(response.data))
+      // } else if(response.data.isLoggedIn && window.location.pathname.slice(-6)==='/login'){
+       }
+      else{
         // Handle logout or other actions
         // Clear local storage or perform other actions
-        localStorage.removeItem('isLoggedIn');
+       localStorage.removeItem('admin');
         // Display a message or redirect to the login page
         toast.info('You have been logged out');
         navigate('/login');
@@ -47,18 +53,18 @@ const Login = () => {
     }
   };
 
-  // Check local storage on component mount
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
+  // // Check local storage on component mount
+  // useEffect(() => {
+  //   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-    if (isLoggedIn) {
-      // Clear local storage or perform other actions
-      localStorage.removeItem('isLoggedIn');
-      // Display a message or redirect to the login page
-      toast.info('You have been logged out');
-      navigate('/login');
-    }
-  }, []);
+  //   if (isLoggedIn) {
+  //     // Clear local storage or perform other actions
+  //     localStorage.removeItem('isLoggedIn');
+  //     // Display a message or redirect to the login page
+  //     toast.info('You have been logged out');
+  //     navigate('/login');
+  //   }
+  // }, []);
 
   const formFields = [
     { name: 'username', label: 'Email/Username', type: 'text', placeholder: 'enter your email' },
