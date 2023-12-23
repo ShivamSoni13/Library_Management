@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
@@ -7,16 +9,13 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const userRoute = require("./routes/user");
 const cors = require("cors");
-
 const app = express();
-const PORT = 3002;
-const uri =
-  "mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/?retryWrites=true&w=majority";
-
+const PORT = process.env.PORT;
+const uri = process.env.URI;
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log("Database connected successfully on -> " + uri);
+    console.log("Database connected successfully ");
   })
   .catch((e) => {
     console.error("Error connecting to the database:", e.message);
@@ -34,7 +33,7 @@ const AuthUser = mongoose.model("AuthUser", authSchema);
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   })
 );
@@ -51,7 +50,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 // Configure the JWT secret key
-const jwtSecret = "EAE6194D9FDCBA4282EAE6C387831";
+const jwtSecret = process.env.JWT_SECREAT;
 
 // Routes
 app.post("/register", async (req, res) => {
@@ -149,5 +148,5 @@ app.options("*", cors());
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running`);
 });
