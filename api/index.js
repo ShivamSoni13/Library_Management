@@ -7,11 +7,16 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const userRoute = require("./routes/user");
 const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
+
+dotenv.config();
 
 const app = express();
-const PORT = 3002;
-const uri =
-  "mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/?retryWrites=true&w=majority";
+const PORT = process.env.PORT;
+const uri = process.env.URI;
+const jwtSecret = process.env.JWT_SECRET;
+const corsOrigin = process.env.CORS_ORIGIN;
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -23,7 +28,6 @@ mongoose
     process.exit(1);
   });
 
-// Auth schema
 const authSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   password: String,
@@ -31,27 +35,16 @@ const authSchema = new mongoose.Schema({
 
 const AuthUser = mongoose.model("AuthUser", authSchema);
 
-// Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: corsOrigin,
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET || "your-default-secret-key",
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
 app.use(bodyParser.json());
-
-// Configure the JWT secret key
-const jwtSecret = "EAE6194D9FDCBA4282EAE6C387831";
 
 // Routes
 app.post("/register", async (req, res) => {
@@ -119,33 +112,18 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-/*
-// Check if the user is authenticated
-const isAuthenticated = (req, res, next) => {
-  const token = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  jwt.verify(token, jwtSecret, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    req.user = decoded;
-    return next();
-  });
-};
-
-app.get("/profile", isAuthenticated, (req, res) => {
-  res.json({ message: "Access to protected resource granted", user: req.user });
-});
-*/
 // User routes
 app.use("/api", userRoute);
 
 app.options("*", cors());
+
+// Accessing Static Files
+app.use(express.static(path.join(__dirname, '../client/my-project/dist')));
+
+app.get('*', function(req,res){
+  res.sendFile(path.join(__dirname, '../client/my-project/dist/index.js'))
+});
 
 // Start the server
 app.listen(PORT, () => {
