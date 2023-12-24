@@ -4,7 +4,7 @@
   "description": "library project for management",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js"
   },
   "author": "bhaskar,shivam",
   "license": "ISC",
