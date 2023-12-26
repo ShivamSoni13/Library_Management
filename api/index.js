@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const userRoute = require("./routes/user");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3002;
 const uri = process.env.URI;
@@ -143,6 +144,26 @@ app.get("/profile", isAuthenticated, (req, res) => {
 */
 // User routes
 app.use("/api", userRoute);
+
+// Deployment Code 
+
+const __dirname1 = path.resolve();
+if(process.env.NODE_ENV === 'production'){
+
+  app.use(express.static(path.join(__dirname1, "../client/my-project/dist")));
+
+  app.get('*', (req,res)=> {
+    res.sendFile(path.resolve(__dirname1, "../client/my-project/dist/index.html"));
+  });
+
+}else {
+  app.get("/", (req,res) => {
+    res.send("API is Running Successfully")
+  });
+
+}
+
+// Deployment Code
 
 app.options("*", cors());
 
