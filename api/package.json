@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "npm install --legacy-peer-dependencies && npm install --legacy-peer-dependencies --prefix client/my-project && npm run build --prefix client/my-project"
+    "build": "npm install && npm install --prefix client/my-project && npm run build --prefix client/my-project"
   },
   "author": "bhaskar,shivam",
   "license": "ISC",
