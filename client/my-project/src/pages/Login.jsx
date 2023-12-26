@@ -22,7 +22,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        'https://library-management-gray.vercel.app/',
+        'https://library-management-gray.vercel.app/login',
         formData,
         { withCredentials: true, mode: 'cors' }
       );
