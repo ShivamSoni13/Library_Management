@@ -10,8 +10,8 @@ const bodyParser = require("body-parser");
 const userRoute = require("./routes/user");
 const cors = require("cors");
 const app = express();
-const PORT = process.env.PORT || 3002;
-const uri = process.env.URI;
+const PORT = "https://library-management-4r9h.vercel.app/" || 3002;
+const uri = "mongodb+srv://libmgmt:12345@libmgmt.cynijla.mongodb.net/?retryWrites=true&w=majority";
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -33,7 +33,7 @@ const AuthUser = mongoose.model("AuthUser", authSchema);
 // Middleware
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: "https://library-management-4r9h.vercel.app/",
     credentials: true,
   })
 );
