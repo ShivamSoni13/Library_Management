@@ -12,7 +12,32 @@ function UpdateDetails({ onUpdate }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+    switch (name) {
+      case 'username':
+      case 'father':
+        if (/^[a-zA-Z\s]*$/.test(value) || value === '') {
+          setFormData({ ...formData, [name]: value });
+        }
+        break;
+      case 'email':
+        if (/^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2,6}$/.test(value) || value === '') {
+          setFormData({ ...formData, [name]: value });
+        }
+        break;
+      case 'age':
+        if (/^\d*$/.test(value) || value === '') {
+          setFormData({ ...formData, [name]: value });
+        }
+        break;
+      case 'phone':
+        if (/^\d{0,10}$/.test(value) || value === '') {
+          setFormData({ ...formData, [name]: value });
+        }
+        break;
+      default:
+        setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -34,6 +59,7 @@ function UpdateDetails({ onUpdate }) {
             className="w-full border rounded-md p-2 focus:outline-none focus:border-blue-400"
           />
         </div>
+
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">Father:</label>
           <input
