@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { userRequest } from '../util/requestMethod';
@@ -10,7 +9,7 @@ const RegisterUser = () => {
   const formFields = [
     { label: 'Name', type: 'text', name: 'username', placeholder: 'Enter customer name' },
     { label: 'Father', type: 'text', name: 'father', placeholder: 'Enter Father name' },
-    { label: 'Email', type: 'email', name: 'email', placeholder: 'Enter customer email' },
+    { label: 'Email', type: 'text', name: 'email', placeholder: 'Enter customer email' },
     { label: 'Age', type: 'number', name: 'age', placeholder: 'Enter customer age' },
     { label: 'Address', type: 'text', name: 'address', placeholder: 'Enter customer address' },
     { label: 'Phone', type: 'number', name: 'phone', placeholder: 'Enter customer phone number' },
@@ -36,39 +35,39 @@ const RegisterUser = () => {
           });
         }
         break;
-        case 'email':
-          // Updated email validation regular expression
-          if (/^[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2-6}$/.test(value) || value === '') {
-            setFormData({
-              ...formData,
-              [name]: value,
-            });
-          }
-          break;
-        case 'age':
-          if (/^\d*$/.test(value) || value === '') {
-            setFormData({
-              ...formData,
-              [name]: value,
-            });
-          }
-          break;
-        case 'phone':
-          // Allow only numeric values for Phone Number
-          if (/^\d*$/.test(value)) {
-            setFormData({
-              ...formData,
-              [name]: value,
-            });
-          }
-          break;
-        default:
+      case 'email':
+        // Simplified email validation regular expression
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setFormData({
+          ...formData,
+          [name]: value,
+          isValidEmail: emailRegex.test(value),
+        });
+        break;
+      case 'age':
+        if (/^\d*$/.test(value) || value === '') {
           setFormData({
             ...formData,
             [name]: value,
           });
-      }
-    };
+        }
+        break;
+      case 'phone':
+        // Allow only numeric values for Phone Number
+        if (/^\d*$/.test(value)) {
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        }
+        break;
+      default:
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -77,6 +76,12 @@ const RegisterUser = () => {
 
     if (!formData.username.trim() || !formData.father.trim() || !formData.email.trim() || !formData.age.trim() || !formData.phone.trim()) {
       toast.error('All fields are required');
+      return;
+    }
+
+    // Check if email is not valid
+    if (!formData.isValidEmail) {
+      toast.error('Invalid email format');
       return;
     }
 
