@@ -1,25 +1,37 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 import Footer from '../components/Footer';
+<<<<<<< HEAD
 import SimpleImageSlider from 'react-simple-image-slider'
  import img2 from '../../img2.png';
  import img3 from '../../img3.png';
  import img4 from '../../img4.png';
 
+=======
+>>>>>>> 33379c81c015a4153688d510835915e4065fbd21
 
 function Home() {
   const sliderImages= [img2,img3,img4];
   return (
+<<<<<<< HEAD
     <div className='bg-khaki '>
       <div className='min-h-screen' >
         {/* Header */}
         <header className='flex justify-between items-center p-2 bg-navy text-orange-600 font-bold'>
           <h1 className='sm:text-6xl'>Daksh library</h1>
+=======
+    <div>
+      <div>
+        {/* Header */}
+        <header className='flex justify-between items-center p-4 bg-blue-500 text-white'>
+          <h1 className='text-6xl'>Library</h1>
+>>>>>>> 33379c81c015a4153688d510835915e4065fbd21
           {/* Login Button */}
           <Link to="/login" className='text-xl hover:underline'>
             Login
           </Link>
         </header>
+<<<<<<< HEAD
 
         {/* slider */}
          <div className='sm:h-3/4 w-full hidden sm:flex justify-center'>
@@ -66,6 +78,10 @@ function Home() {
 
         {/* Footer */}
         <header className='font-bold text-5xl font-Montserrat text-center my-3'>Details</header>
+=======
+        
+        {/* Footer */}
+>>>>>>> 33379c81c015a4153688d510835915e4065fbd21
         <footer>
           <Footer />
         </footer>
@@ -75,3 +91,7 @@ function Home() {
 }
 
 export default Home;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 33379c81c015a4153688d510835915e4065fbd21

@@ -10,7 +10,7 @@ const bodyParser = require("body-parser");
 const userRoute = require("./routes/user");
 const cors = require("cors");
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3002;
 const uri = process.env.URI;
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -50,7 +50,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 // Configure the JWT secret key
-const jwtSecret = process.env.JWT_SECREAT;
+const jwtSecret = process.env.JWT_SECRET;
 
 // Routes
 app.post("/register", async (req, res) => {
