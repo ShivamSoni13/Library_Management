@@ -129,6 +129,24 @@ function IdentificationPage() {
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date :</label>
             <span>{identity.updatedAt}</span>
           </div>
+          {/* to be updated */}
+          <div className='sm:flex  sm:w-full my-2'>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Subscription Ending on:</label>
+            <span>+30 date//</span>
+          </div>
+          <div className='sm:flex  sm:w-full my-2'>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Shift:</label>
+            <span>Morning//</span>
+          </div>
+          <div className='sm:flex  sm:w-full my-2'>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Paid</label>
+            <span>500//</span>
+          </div>
+          <div className='sm:flex  sm:w-full my-2'>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Total Fees</label>
+            <span>1000//</span>
+          </div>
+          {/* to be updated */}
           <div className='sm:flex  sm:w-full mt-2 '>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Status :</label>
             <span className={`${identity.feeStatus ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
