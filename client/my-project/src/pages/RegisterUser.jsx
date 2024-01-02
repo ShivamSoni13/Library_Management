@@ -14,6 +14,11 @@ const RegisterUser = () => {
     { label: 'Age', type: 'number', name: 'age', placeholder: 'Enter customer age' },
     { label: 'Address', type: 'text', name: 'address', placeholder: 'Enter customer address' },
     { label: 'Phone', type: 'number', name: 'phone', placeholder: 'Enter customer phone number' },
+    { label: 'Shift(M/E)', type: 'text', name: 'shift', placeholder: 'Enter Shift Morning/Evening' },
+    { label: 'Paying fee', type: 'number', name: 'paid', placeholder: 'Enter customer amount paying' },
+    { label: 'Total fee', type: 'number', name: 'total', placeholder: 'Enter customers total fee' },
+    { label: 'Customer Image', type: 'file', name: 'image', placeholder: 'Enter customer'},
+    
   ];
 
   const [formData, setFormData] = useState(
@@ -59,12 +64,13 @@ const RegisterUser = () => {
       // }
     } catch (error) {
       //console.error('Error Registering User:', error);
-  
+
       // Log more details about the error
       console.log('Error Details:', error.response);
-  
+
       //toast.error('Error Registering User');
     }
+
   };
 
   return (
@@ -73,10 +79,10 @@ const RegisterUser = () => {
         <Navbar/>
       </div>
 
-       <div className='  sm:h-screen  sm:flex sm:justify-center sm:items-center'>
+       <div className='md:h-fit  sm:flex sm:justify-center sm:items-center'>
 
       <form
-        className=' bg-slate-50 flex flex-col sm:w-3/5 w-full mx-auto sm:mt-10 sm:drop-shadow-lg sm:blur-none shadow-black  sm:rounded-md z-10 sm:h-3/4 '
+        className=' bg-slate-50 flex flex-col sm:w-3/5 w-full mx-auto sm:my-10 sm:drop-shadow-lg sm:blur-none shadow-black  sm:rounded-md z-10 sm:h-fit '
       >
       <header className='text-center text-3xl sm:text-5xl py-3 bg-navy text-orange-600 sm:rounded-t-md'>Register a New Customer</header>
         <div className='sm:my-3 sm:px-10 px-5'>
@@ -98,6 +104,26 @@ const RegisterUser = () => {
             />
           </div>
         ))}
+         {/* DropDown menu
+        <label className='sm:flex w-1/5 sm:items-center sm:justify-start text-xs sm:text-lg'>
+          Shift
+        <select name="shifts" className='border sm:w-full p-1 rounded-md sm:rounded-sm'>
+          <option value="morning">Morning</option>
+          <option value="evening">Evening</option>
+        </select>
+        {/* // */}
+         {/* <select value={value} onChange={handleShiftChange}>
+
+         {options.map((option) => (
+
+           <option value={option.value}>{option.label}</option>
+
+         ))}
+
+       </select>
+        </label>  */}
+        
+
         </div>
 
         <div className='flex justify-center py-2  sm:mt-0'>
