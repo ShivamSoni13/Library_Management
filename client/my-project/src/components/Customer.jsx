@@ -17,8 +17,8 @@ const {customers}=useContext(UserContext);
 // )
 
   return (
-    <div className='flex flex-col w-full sm:flex-row sm:px-10 sm:justify-around sm:mt-5  h-screen sm:pt-10 px-5 gap-4'>
-        <div className=' border sm:drop-shadow-lg blur-0  sm:h-3/4 sm:w-1/3 overflow-auto relative bg-orange-50'>
+    <div className='flex flex-col w-full sm:flex-row sm:px-10 sm:justify-around sm:mt-5  min-h-screen sm:h-screen sm:pt-10 px-5 gap-4'>
+        <div className=' border sm:drop-shadow-lg blur-0 h-48 sm:h-3/4 sm:w-1/3 overflow-auto relative bg-orange-50'>
            
             <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>All customers list</header>
             {/* <hr className='border-black '/> */}
@@ -37,7 +37,41 @@ const {customers}=useContext(UserContext);
                 
               }
         </div>
-        <div className=' border sm:drop-shadow-lg blur-0 sm:w-1/3 sm:h-fit overflow-auto relative bg-orange-50 '>
+        <div className=' border sm:drop-shadow-lg blur-0 sm:w-1/3 h-48 sm:h-3/4 overflow-auto relative bg-orange-50 '>
+                        <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>Morning Shift</header>
+                        {/* <hr className='border-black'/> */}
+             {
+              //change condition here for morning shift
+               customers.filter((data)=>(data.feeStatus===false)).map((prop)=>(
+                     <CustomerCard 
+                key={prop._id}
+             name={prop.username}
+             id={prop._id}
+             address={prop.address}
+             phone={prop.phone}
+                />
+  )) 
+                
+              }
+        </div>
+        <div className=' border sm:drop-shadow-lg blur-0 sm:w-1/3 h-48 sm:h-3/4 overflow-auto relative bg-orange-50 '>
+                        <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>Evening Shift</header>
+                        {/* <hr className='border-black'/> */}
+             {
+                //change condition here for evening shift
+               customers.filter((data)=>(data.feeStatus===false)).map((prop)=>(
+                     <CustomerCard 
+                key={prop._id}
+             name={prop.username}
+             id={prop._id}
+             address={prop.address}
+             phone={prop.phone}
+                />
+  )) 
+                
+              }
+        </div>
+        <div className=' border sm:drop-shadow-lg blur-0 sm:w-1/3 h-48 sm:h-3/4 overflow-auto relative bg-orange-50 '>
                         <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>Fee not Paid</header>
                         {/* <hr className='border-black'/> */}
              {
