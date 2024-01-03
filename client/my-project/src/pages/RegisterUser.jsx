@@ -15,8 +15,8 @@ const RegisterUser = () => {
     { label: 'Address', type: 'text', name: 'address', placeholder: 'Enter customer address' },
     { label: 'Phone', type: 'number', name: 'phone', placeholder: 'Enter customer phone number' },
     { label: 'Shift(M/E)', type: 'select', name: 'shift', options: ['Morning', 'Evening'], placeholder: 'Select Shift' },
-    { label: 'Total fee', type: 'number', name: 'total', placeholder: 'Enter customers total fee' },
-    { label: 'Paying fee', type: 'number', name: 'paid', placeholder: 'Enter customer amount paying' },
+    { label: 'Total fee', type: 'number', name: 'totalFee', placeholder: 'Enter customers total fee' },
+    { label: 'Paying fee', type: 'number', name: 'feePaid', placeholder: 'Enter customer amount paying' },
   ];
 
   const [formData, setFormData] = useState(
