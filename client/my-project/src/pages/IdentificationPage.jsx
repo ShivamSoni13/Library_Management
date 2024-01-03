@@ -8,16 +8,18 @@ import { useParams } from 'react-router-dom';
 import UpdateDetails from './UpdateDetails';
 import Navbar from '../components/Navbar';
 import dayjs from 'dayjs';
+import FeeModal from '../components/FeeModal';
 
- const IdentificationPage  = ()=> {
+const IdentificationPage = () => {
   const [identity, setIdentity] = useState({});
   const { customerId } = useParams();
   const [updateMode, setUpdateMode] = useState(false);
+  const [showFeeModal, setShowFeeModal] = useState(false);
+  const [feeInput, setFeeInput] = useState('');
 
   const handleUpdateDetails = async (updatedData) => {
     try {
       const response = await userRequest.put(`/update-user/${customerId}`, updatedData);
-      console.log(response.data);
       setIdentity(response.data.user);
       setUpdateMode(false);
       toast.success('Details Updated Successfully');
@@ -27,9 +29,20 @@ import dayjs from 'dayjs';
     }
   };
 
-  const handlePayFee = async () => {
-    // Display a confirmation window
-    const isConfirmed = window.confirm('Are you sure you want to mark the fee as paid for this user?');
+  const handlePayFee = () => {
+    setShowFeeModal(true);
+  };
+
+  const confirmFeePayment = async () => {
+    setShowFeeModal(false);
+
+    const feeAmount = parseFloat(feeInput);
+    if (isNaN(feeAmount) || feeAmount < 0) {
+      toast.error('Invalid fee amount entered. Fee payment canceled.');
+      return;
+    }
+
+    const isConfirmed = window.confirm(`Are you sure you want to mark ${feeAmount} as paid for this user?`);
 
     if (!isConfirmed) {
       return; // User canceled the fee payment
@@ -38,13 +51,15 @@ import dayjs from 'dayjs';
     try {
       const response = await userRequest.put(`/update-fee-status/${customerId}`, {
         feeStatus: true,
+        feePaid: feeAmount,
       });
-  
+
       if (response.status === 200) {
         toast.success('Fee Paid Successfully');
         setIdentity((prevIdentity) => ({
           ...prevIdentity,
           feeStatus: true,
+          feePaid: feeAmount,
         }));
       } else {
         toast.error('Error updating fee status');
@@ -58,7 +73,6 @@ import dayjs from 'dayjs';
   const navigate = useNavigate();
 
   const handleDeleteUser = async () => {
-    // Display a confirmation window
     const isConfirmed = window.confirm('Are you sure you want to delete this user?');
 
     if (!isConfirmed) {
@@ -67,7 +81,7 @@ import dayjs from 'dayjs';
 
     try {
       const response = await userRequest.delete(`/delete-user/${customerId}`);
-  
+
       if (response.status === 200) {
         toast.success('User Deleted Successfully');
         navigate('/customersinfo');
@@ -79,15 +93,15 @@ import dayjs from 'dayjs';
       toast.error('Error deleting user');
     }
   };
-  
+
   useEffect(() => {
-    const fetchData = () => {
-      userRequest.get(`/user/${customerId}`).then((data) => {
-        const user = data.data;
-        setIdentity(user);
-      }).catch((e) => {
-        console.log(e);
-      });
+    const fetchData = async () => {
+      try {
+        const data = await userRequest.get(`/user/${customerId}`);
+        setIdentity(data.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, [customerId]);
@@ -95,9 +109,9 @@ import dayjs from 'dayjs';
   return (
     <div className='bg-khaki'>
       <div>
-        <Navbar/>
+        <Navbar />
       </div>
-      <div className='sm:border sm:drop-shadow-lg   sm:border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
+      <div className='sm:border sm:drop-shadow-lg sm:border-black flex flex-col sm:flex sm:flex-row sm:my-5 sm:mx-40 sm:p-10 sm:justify-around'>
         <div className='sm:w-1/4  flex justify-center items-center w-full sm:h-56'>
           <img className='sm:h-full w-1/2 sm:w-full' src={imgIcon} alt="imageIcon" />
         </div>
@@ -148,30 +162,35 @@ import dayjs from 'dayjs';
             <span>{identity.totalFee}</span>
           </div>
           {/* to be updated */}
-          <div className='sm:flex  sm:w-full mt-2 '>
+          <div className='sm:flex  sm:w-full mt-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Status :</label>
             <span className={`${identity.feePaid === identity.totalFee ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
-              {/* updated   {identity.feeStatus ? "Paid" : "Pending/Not Paid"} */}
               {identity.feePaid === identity.totalFee ? "Paid" : "Pending/Not Paid"}
             </span>
           </div>
         </div>
       </div>
-      <div className='flex  flex-col items-center gap-5 py-4  sm:w-full sm:flex-row sm:flex sm:justify-center sm:gap-10  '>
-        <button onClick={() => setUpdateMode(true)} className='bg-blue-400 text-white p-3 rounded-md  hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
-          Update 
+      <div className='flex flex-col items-center gap-5 py-4 sm:w-full sm:flex-row sm:flex sm:justify-center sm:gap-10'>
+        <button onClick={() => setUpdateMode(true)} className='bg-blue-400 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
+          Update
         </button>
-        <button onClick={handlePayFee} className='bg-green-600 text-white p-3 rounded-md  hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out  w-1/3 sm:w-1/6'>
+        <button onClick={handlePayFee} className='bg-green-600 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Pay Fee
         </button>
-        <button onClick={handleDeleteUser} className='bg-red-600 text-white p-3 rounded-md  hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
+        <button onClick={handleDeleteUser} className='bg-red-600 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Delete User
         </button>
       </div>
 
-      {updateMode && (
-        <UpdateDetails onUpdate={handleUpdateDetails} />
-      )}
+      {updateMode && <UpdateDetails onUpdate={handleUpdateDetails} />}
+
+      <FeeModal
+        showFeeModal={showFeeModal}
+        setShowFeeModal={setShowFeeModal}
+        feeInput={feeInput}
+        setFeeInput={setFeeInput}
+        confirmFeePayment={confirmFeePayment}
+      />
 
       <ToastContainer position="bottom-right" autoClose={3000} />
     </div>

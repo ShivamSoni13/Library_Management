@@ -65,7 +65,7 @@ router.get("/user/:userId", async (req, res) => {
 // Endpoint to update fee status
 router.put("/update-fee-status/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { feeStatus } = req.body;
+  const { feeStatus, feePaid } = req.body;
 
   try {
     // Check if the user exists
@@ -74,8 +74,9 @@ router.put("/update-fee-status/:userId", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Update fee status
+    // Update fee status and feePaid
     user.feeStatus = feeStatus;
+    user.feePaid = feePaid;
     await user.save();
 
     return res.status(200).json({ message: "Fee status updated successfully", user });
