@@ -136,15 +136,15 @@ function IdentificationPage() {
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Shift:</label>
-            <span>Morning//</span>
+            <span>{identity.shift}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Paid</label>
-            <span>500//</span>
+            <span>{identity.feePaid}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Total Fees</label>
-            <span>1000//</span>
+            <span>{identity.totalFee}</span>
           </div>
           {/* to be updated */}
           <div className='sm:flex  sm:w-full mt-2 '>
