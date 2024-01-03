@@ -127,24 +127,24 @@ import dayjs from 'dayjs';
             <span>{identity.address}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
-            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date:</label>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date :</label>
             <span>{dayjs(identity.createdAt).format('DD/MM/YYYY')}</span>
           </div>
           {/* to be updated */}
           <div className='sm:flex  sm:w-full my-2'>
-            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Subscription Ending on:</label>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Subscription Ending on :</label>
             <span>{dayjs(identity.createdAt).add(30,'days').format('DD/MM/YYYY')}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
-            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Shift:</label>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Shift :</label>
             <span>{ identity.shift}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
-            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Paid</label>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Paid :</label>
             <span>{identity.feePaid}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
-            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Total Fees</label>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Total Fees :</label>
             <span>{identity.totalFee}</span>
           </div>
           {/* to be updated */}
