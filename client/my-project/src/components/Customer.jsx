@@ -32,6 +32,8 @@ const {customers}=useContext(UserContext);
              address={prop.address}
              phone={prop.phone}
              feeStatus={prop.feeStatus}
+             feePaid={prop.feePaid}
+             totalFee={prop.totalFee}
                 />       
   )) 
                 
@@ -42,13 +44,15 @@ const {customers}=useContext(UserContext);
                         {/* <hr className='border-black'/> */}
              {
               //change condition here for morning shift
-               customers.filter((data)=>(data.feeStatus===false)).map((prop)=>(
+               customers.filter((data)=>(data.shift==='Morning')).map((prop)=>(
                      <CustomerCard 
                 key={prop._id}
              name={prop.username}
              id={prop._id}
              address={prop.address}
              phone={prop.phone}
+             feePaid={prop.feePaid}
+             totalFee={prop.totalFee}
                 />
   )) 
                 
@@ -59,13 +63,15 @@ const {customers}=useContext(UserContext);
                         {/* <hr className='border-black'/> */}
              {
                 //change condition here for evening shift
-               customers.filter((data)=>(data.feeStatus===false)).map((prop)=>(
+               customers.filter((data)=>(data.shift==='Evening')).map((prop)=>(
                      <CustomerCard 
                 key={prop._id}
              name={prop.username}
              id={prop._id}
              address={prop.address}
              phone={prop.phone}
+             feePaid={prop.feePaid}
+             totalFee={prop.totalFee}
                 />
   )) 
                 
@@ -75,13 +81,15 @@ const {customers}=useContext(UserContext);
                         <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>Fee not Paid</header>
                         {/* <hr className='border-black'/> */}
              {
-               customers.filter((data)=>(data.feeStatus===false)).map((prop)=>(
+               customers.filter((data)=>(data.feePaid !== data.totalFee)).map((prop)=>(
                      <CustomerCard 
                 key={prop._id}
              name={prop.username}
              id={prop._id}
              address={prop.address}
              phone={prop.phone}
+             feePaid={prop.feePaid}
+             totalFee={prop.totalFee}
                 />
   )) 
                 
