@@ -55,7 +55,7 @@ const IdentificationPage = () => {
       });
 
       if (response.status === 200) {
-        toast.success('Fee Paid Successfully');
+        toast.success('Fee Updated Successfully');
         setIdentity((prevIdentity) => ({
           ...prevIdentity,
           feeStatus: true,
