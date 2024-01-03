@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -24,6 +25,19 @@ const UserSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
+      required: true,
+    },
+    shift: {
+      type: String,
+      enum: ["Morning", "Evening"],
+      required: true,
+    },
+    totalFee: {
+      type: Number,
+      required: true,
+    },
+    feePaid: {
+      type: Number,
       required: true,
     },
     createdAt: {

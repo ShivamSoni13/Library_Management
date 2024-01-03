@@ -3,10 +3,11 @@ const router = express.Router();
 const User = require("../model/User.js");
 const schedule = require("node-schedule");
 
-// Post Request for registering a new user
+// Endpoint for registering a new user
 router.post("/register", async (req, res) => {
   try {
-    const { username, email, age, address, phone, father } = req.body;
+    // Extract relevant data from the request body
+    const { username, email, age, address, phone, father, shift, totalFee, feePaid } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -22,8 +23,12 @@ router.post("/register", async (req, res) => {
       age,
       address,
       phone,
+      shift,
+      totalFee,
+      feePaid,
     });
 
+    // Respond with the newly created user
     return res.status(201).json({ user: newUser });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -31,7 +36,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Define the route to get all registered users
+// Endpoint to get all registered users
 router.get("/user", async (req, res) => {
   try {
     const users = await User.find();
@@ -41,7 +46,7 @@ router.get("/user", async (req, res) => {
   }
 });
 
-// Define the route to get a single registered user by ID
+// Endpoint to get a single registered user by ID
 router.get("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
 
@@ -57,7 +62,7 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-// Check fee Status and Update it
+// Endpoint to update fee status
 router.put("/update-fee-status/:userId", async (req, res) => {
   const { userId } = req.params;
   const { feeStatus } = req.body;
@@ -73,16 +78,14 @@ router.put("/update-fee-status/:userId", async (req, res) => {
     user.feeStatus = feeStatus;
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Fee status updated successfully", user });
+    return res.status(200).json({ message: "Fee status updated successfully", user });
   } catch (error) {
     console.error("Error updating fee status:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-// Delete user endpoint
+// Endpoint to delete a user
 router.delete("/delete-user/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
@@ -98,10 +101,10 @@ router.delete("/delete-user/:userId", async (req, res) => {
   }
 });
 
-// Update user details endpoint
+// Endpoint to update user details
 router.put("/update-user/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { username, email, age, address, phone, father } = req.body;
+  const { username, email, age, address, phone, father, shift, totalFee, feePaid } = req.body;
 
   try {
     // Check if the user exists
@@ -117,18 +120,20 @@ router.put("/update-user/:userId", async (req, res) => {
     user.age = age || user.age;
     user.address = address || user.address;
     user.phone = phone || user.phone;
+    user.shift = shift || user.shift;
+    user.totalFee = totalFee || user.totalFee;
+    user.feePaid = feePaid || user.feePaid;
 
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "User details updated successfully", user });
+    return res.status(200).json({ message: "User details updated successfully", user });
   } catch (error) {
     console.error("Error updating user details:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
+// Schedule job to update feeStatus for all users monthly
 schedule.scheduleJob("0 0 0 1 * *", async () => {
   try {
     // Get all users
