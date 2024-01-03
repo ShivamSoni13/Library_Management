@@ -37,7 +37,7 @@ const IdentificationPage = () => {
     setShowFeeModal(false);
 
     const feeAmount = parseFloat(feeInput);
-    if (isNaN(feeAmount) || feeAmount < 0) {
+    if (isNaN(feeAmount) || feeAmount <= 0) {
       toast.error('Invalid fee amount entered. Fee payment canceled.');
       return;
     }
@@ -49,9 +49,14 @@ const IdentificationPage = () => {
     }
 
     try {
+      if(identity.feePaid === identity.totalFee){
+          toast.error('Fee already Paid');
+        }else if(feeAmount+identity.feePaid > identity.totalFee){
+         toast.error('Amount is more than total fee');
+        }else {
       const response = await userRequest.put(`/update-fee-status/${customerId}`, {
         feeStatus: true,
-        feePaid: feeAmount,
+       feePaid: feeAmount +identity.feePaid  ,
       });
 
       if (response.status === 200) {
@@ -59,11 +64,12 @@ const IdentificationPage = () => {
         setIdentity((prevIdentity) => ({
           ...prevIdentity,
           feeStatus: true,
-          feePaid: feeAmount,
+          feePaid: feeAmount +identity.feePaid  ,
         }));
       } else {
         toast.error('Error updating fee status');
       }
+    }
     } catch (error) {
       console.error('Error updating fee status:', error);
       toast.error('Error updating fee status');
