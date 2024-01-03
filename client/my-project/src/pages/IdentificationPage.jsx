@@ -7,8 +7,9 @@ import { userRequest } from '../util/requestMethod';
 import { useParams } from 'react-router-dom';
 import UpdateDetails from './UpdateDetails';
 import Navbar from '../components/Navbar';
+import dayjs from 'dayjs';
 
-function IdentificationPage() {
+ const IdentificationPage  = ()=> {
   const [identity, setIdentity] = useState({});
   const { customerId } = useParams();
   const [updateMode, setUpdateMode] = useState(false);
@@ -126,17 +127,17 @@ function IdentificationPage() {
             <span>{identity.address}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
-            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date :</label>
-            <span>{identity.updatedAt}</span>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date:</label>
+            <span>{dayjs(identity.createdAt).format('DD/MM/YYYY')}</span>
           </div>
           {/* to be updated */}
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Subscription Ending on:</label>
-            <span>+30 date//</span>
+            <span>{dayjs(identity.createdAt).add(30,'days').format('DD/MM/YYYY')}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Shift:</label>
-            <span>{identity.shift}</span>
+            <span>{ identity.shift}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Paid</label>
@@ -149,8 +150,9 @@ function IdentificationPage() {
           {/* to be updated */}
           <div className='sm:flex  sm:w-full mt-2 '>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Status :</label>
-            <span className={`${identity.feeStatus ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
-              {identity.feeStatus ? "Paid" : "Pending/Not Paid"}
+            <span className={`${identity.feePaid === identity.totalFee ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
+              {/* updated   {identity.feeStatus ? "Paid" : "Pending/Not Paid"} */}
+              {identity.feePaid === identity.totalFee ? "Paid" : "Pending/Not Paid"}
             </span>
           </div>
         </div>
