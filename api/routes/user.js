@@ -7,7 +7,18 @@ const schedule = require("node-schedule");
 router.post("/register", async (req, res) => {
   try {
     // Extract relevant data from the request body
-    const { username, email, age, address, phone, father, shift, totalFee, feePaid } = req.body;
+    const {
+      username,
+      email,
+      age,
+      address,
+      phone,
+      father,
+      shift,
+      totalFee,
+      feePaid,
+      subscriptionDate,
+    } = req.body;
 
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
@@ -26,6 +37,7 @@ router.post("/register", async (req, res) => {
       shift,
       totalFee,
       feePaid,
+      subscriptionDate,
     });
 
     // Respond with the newly created user
@@ -79,7 +91,9 @@ router.put("/update-fee-status/:userId", async (req, res) => {
     user.feePaid = feePaid;
     await user.save();
 
-    return res.status(200).json({ message: "Fee status updated successfully", user });
+    return res
+      .status(200)
+      .json({ message: "Fee status updated successfully", user });
   } catch (error) {
     console.error("Error updating fee status:", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -105,7 +119,17 @@ router.delete("/delete-user/:userId", async (req, res) => {
 // Endpoint to update user details
 router.put("/update-user/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { username, email, age, address, phone, father, shift, totalFee, feePaid } = req.body;
+  const {
+    username,
+    email,
+    age,
+    address,
+    phone,
+    father,
+    shift,
+    totalFee,
+    feePaid,
+  } = req.body;
 
   try {
     // Check if the user exists
@@ -127,7 +151,9 @@ router.put("/update-user/:userId", async (req, res) => {
 
     await user.save();
 
-    return res.status(200).json({ message: "User details updated successfully", user });
+    return res
+      .status(200)
+      .json({ message: "User details updated successfully", user });
   } catch (error) {
     console.error("Error updating user details:", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -189,7 +215,6 @@ schedule.scheduleJob("0 0 0 1 * *", async () => {
 
 // Example of renewing subscription for a specific user (you can call this function when the admin hits the renew button)
 const userIdToRenew = "your_user_id_here";
-renewSubscription(userIdToRenew);
-
+//renewSubscription(userIdToRenew);
 
 module.exports = router;
