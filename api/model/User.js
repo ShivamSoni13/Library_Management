@@ -45,10 +45,18 @@ const UserSchema = new mongoose.Schema(
       default: Date.now(),
       required: true,
     },
+    subscriptionDate: {
+      type: Date,
+      default: null, // Initial subscription date can be set to null or a default date
+    },
     feeStatus: {
       type: Boolean,
       default: false,
       required: true,
+    },
+    lastFeeUpdate: {
+      type: Date,
+      default: null, // Initial value can be set to null or a default date
     },
   },
   { timestamps: true }

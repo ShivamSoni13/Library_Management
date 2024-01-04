@@ -134,6 +134,32 @@ router.put("/update-user/:userId", async (req, res) => {
   }
 });
 
+// Assume you have a function renewSubscription(userId) that updates subscription date and feeStatus
+async function renewSubscription(userId) {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      console.error("User not found");
+      return;
+    }
+
+    // Update subscription date to next month
+    const nextMonth = new Date();
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    user.subscriptionDate = nextMonth;
+
+    // Change feeStatus to unpaid
+    user.feeStatus = false;
+
+    // Save the changes
+    await user.save();
+
+    console.log(`Subscription renewed for user ${userId}`);
+  } catch (error) {
+    console.error("Error renewing subscription:", error);
+  }
+}
+
 // Schedule job to update feeStatus for all users monthly
 schedule.scheduleJob("0 0 0 1 * *", async () => {
   try {
@@ -160,5 +186,10 @@ schedule.scheduleJob("0 0 0 1 * *", async () => {
     console.error("Error updating feeStatus:", error);
   }
 });
+
+// Example of renewing subscription for a specific user (you can call this function when the admin hits the renew button)
+const userIdToRenew = "your_user_id_here";
+renewSubscription(userIdToRenew);
+
 
 module.exports = router;
