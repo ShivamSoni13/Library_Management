@@ -150,14 +150,17 @@ const IdentificationPage = () => {
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Registration Date :</label>
             <span>{dayjs(identity.createdAt).format('DD/MM/YYYY')}</span>
           </div>
-          {/* to be updated */}
+          <div className='sm:flex  sm:w-full my-2'>
+            <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Subscription  Starts On :</label>
+            <span>{dayjs(identity.subscriptionDate).format('DD/MM/YYYY')}</span>
+          </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Subscription Ending on :</label>
-            <span>{dayjs(identity.createdAt).add(30,'days').format('DD/MM/YYYY')}</span>
+            <span>{dayjs(identity.subscriptionDate).add(30,'days').format('DD/MM/YYYY')}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Shift :</label>
-            <span>{ identity.shift}</span>
+            <span>{identity.shift}</span>
           </div>
           <div className='sm:flex  sm:w-full my-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Paid :</label>
@@ -167,7 +170,6 @@ const IdentificationPage = () => {
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Total Fees :</label>
             <span>{identity.totalFee}</span>
           </div>
-          {/* to be updated */}
           <div className='sm:flex  sm:w-full mt-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Status :</label>
             <span className={`${identity.feePaid === identity.totalFee ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
@@ -177,11 +179,14 @@ const IdentificationPage = () => {
         </div>
       </div>
       <div className='flex flex-col items-center gap-5 py-4 sm:w-full sm:flex-row sm:flex sm:justify-center sm:gap-10'>
-        <button onClick={() => setUpdateMode(true)} className='bg-blue-400 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
+        <button onClick={() => setUpdateMode(true)} className='bg-gray-400 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Update
         </button>
         <button onClick={handlePayFee} className='bg-green-600 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Pay Fee
+        </button>
+        <button  className=' bg-blue-400 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
+          Renew Subscription
         </button>
         <button onClick={handleDeleteUser} className='bg-red-600 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Delete User
