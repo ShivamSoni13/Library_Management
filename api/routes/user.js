@@ -12,9 +12,18 @@ router.use(async (req, res, next) => {
     // Update feeStatus for each user
     users.forEach(async (user) => {
       // Check if the current date is equal to or later than subscriptionDate
-      const currentDate = new Date();
-      if (currentDate >= user.subscriptionDate) {
+      const currentDate = Date.now();
+      //console.log(user.subscriptionDate);
+      const subscriptionStartDate = new Date(user.subscriptionDate);
+      const SubscriptionEndDate = new Date(subscriptionStartDate);
+      SubscriptionEndDate.setDate(subscriptionStartDate.getDate() + 30);
+
+      //console.log(futureDate);
+
+      if (currentDate >= SubscriptionEndDate) {
+        //console.log(user.subscriptionDate);
         // If true, update feeStatus to false
+        // console.log("Subscription Ended for" + user);
         user.feeStatus = false;
         await user.save();
       }
