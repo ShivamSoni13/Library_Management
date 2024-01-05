@@ -174,7 +174,7 @@ router.put("/update-user/:userId", async (req, res) => {
     user.address = address || user.address;
     user.phone = phone || user.phone;
     user.shift = shift || user.shift;
-
+    user.subscriptionDate = subscriptionDate || user.subscriptionDate;
     await user.save();
 
     return res
