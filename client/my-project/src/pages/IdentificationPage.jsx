@@ -216,8 +216,15 @@ const IdentificationPage = () => {
           </div>
           <div className='sm:flex  sm:w-full mt-2'>
             <label className='font-bold w-1/2 flex justify-start sm:pl-2'>Fee Status :</label>
-            <span className={`${identity.feePaid === identity.totalFee ? 'text-green-400' : 'text-red-400'} bg-white font-bold`}>
-              {identity.feePaid === identity.totalFee ? "Paid" : "Pending/Not Paid"}
+            <span className={`${(identity.feePaid === identity.totalFee && Date.now() < new Date(new Date(identity.subscriptionDate)).setDate(new Date(identity.subscriptionDate).getDate() + 30)) ? 'text-green-400' :
+            (
+                Date.now() >= new Date(new Date(identity.subscriptionDate)).setDate(new Date(identity.subscriptionDate).getDate() + 30)
+              ) 
+               ?'text-red-600 ': 'text-red-400'} bg-white font-bold`}>
+              {(identity.feePaid === identity.totalFee && Date.now() < new Date(new Date(identity.subscriptionDate)).setDate(new Date(identity.subscriptionDate).getDate() + 30)) ? "Paid" :
+              (
+                Date.now() >= new Date(new Date(identity.subscriptionDate)).setDate(new Date(identity.subscriptionDate).getDate() + 30)
+              )?"Subscription Ended": "Pending/Not Paid"}
             </span>
           </div>
         </div>
