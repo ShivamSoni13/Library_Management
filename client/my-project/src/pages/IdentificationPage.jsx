@@ -128,18 +128,22 @@ const IdentificationPage = () => {
         feePaid: 0,
       });
 
-      if (response.status === 200) {
-        const renewedSubscriptionDate = dayjs().format('DD/MM/YYYY');
-        const renewedSubscriptionEndDate = dayjs().add(30, 'days').format('DD/MM/YYYY');
+      const response2=await userRequest.put(`/update-user/${customerId}`,{
+        subscriptionDate: Date.now(),
+      })
 
-        setIdentity((prevIdentity) => ({
-          ...prevIdentity,
-          subscriptionDate: renewedSubscriptionDate,
-          subscriptionEndDate: renewedSubscriptionEndDate,
-          feeStatus: false,
-          feePaid: 0,
-        }));
+      if (response.status && response2.status === 200) {
+        //const renewedSubscriptionDate = dayjs().format('DD/MM/YYYY');
+        //const renewedSubscriptionEndDate = dayjs().add(30, 'days').format('DD/MM/YYYY');
 
+        // setIdentity((prevIdentity) => ({
+        //   ...prevIdentity,
+        //   subscriptionDate: Date.now(),
+        //  // subscriptionEndDate: renewedSubscriptionEndDate,
+        //   feeStatus: false,
+        //   feePaid: 0,
+        // }));
+         
         toast.success('Subscription Renewed Successfully, Fee status reset.');
       } else {
         toast.error('Error renewing subscription');
