@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema(
     },
     subscriptionDate: {
       type: Date,
-      required: true, // Initial subscription date can be set to null or a default date
+      required: false, // Initial subscription date can be set to null or a default date
     },
     feeStatus: {
       type: Boolean,

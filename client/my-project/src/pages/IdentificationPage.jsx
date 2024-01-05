@@ -112,6 +112,46 @@ const IdentificationPage = () => {
     fetchData();
   }, [customerId]);
 
+   // To Renew the Subscription
+  const handleRenewSubscription = async () => {
+    try {
+      // Show an alert before renewing subscription
+      const isConfirmed = window.confirm('Are you sure you want to renew the subscription and reset the fee?');
+
+      if (!isConfirmed) {
+        return; // If the admin cancels the action
+      }
+
+      // Reset feePaid to 0 and feeStatus to false
+      const response = await userRequest.put(`/update-fee-status/${customerId}`, {
+        feeStatus: false,
+        feePaid: 0,
+      });
+
+      if (response.status === 200) {
+        const renewedSubscriptionDate = dayjs().format('DD/MM/YYYY');
+        const renewedSubscriptionEndDate = dayjs().add(30, 'days').format('DD/MM/YYYY');
+
+        setIdentity((prevIdentity) => ({
+          ...prevIdentity,
+          subscriptionDate: renewedSubscriptionDate,
+          subscriptionEndDate: renewedSubscriptionEndDate,
+          feeStatus: false,
+          feePaid: 0,
+        }));
+
+        toast.success('Subscription Renewed Successfully, Fee status reset.');
+      } else {
+        toast.error('Error renewing subscription');
+      }
+    } catch (error) {
+      console.error('Error renewing subscription:', error);
+      toast.error('Error renewing subscription');
+    }
+  };
+
+
+
   return (
     <div className='bg-khaki'>
       <div>
@@ -185,8 +225,8 @@ const IdentificationPage = () => {
         <button onClick={handlePayFee} className='bg-green-600 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Pay Fee
         </button>
-        <button  className=' bg-blue-400 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
-          Renew Subscription
+        <button onClick={handleRenewSubscription} className='bg-blue-400 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
+        Renew Subscription
         </button>
         <button onClick={handleDeleteUser} className='bg-red-600 text-white p-3 rounded-md hover:font-bold sm:hover:scale-110 transition duration-300 ease-in-out w-1/3 sm:w-1/6'>
           Delete User

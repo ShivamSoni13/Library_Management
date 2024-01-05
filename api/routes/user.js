@@ -3,6 +3,33 @@ const router = express.Router();
 const User = require("../model/User.js");
 const schedule = require("node-schedule");
 
+// Middleware to update feeStatus based on subscriptionDate in real-time
+router.use(async (req, res, next) => {
+  try {
+    // Get all users
+    const users = await User.find();
+
+    // Update feeStatus for each user
+    users.forEach(async (user) => {
+      // Check if the current date is equal to or later than subscriptionDate
+      const currentDate = new Date();
+      if (currentDate >= user.subscriptionDate) {
+        // If true, update feeStatus to false
+        user.feeStatus = false;
+        await user.save();
+      }
+    });
+
+    console.log("FeeStatus updated in real-time for all users");
+
+    // Continue to the next middleware or route
+    next();
+  } catch (error) {
+    console.error("Error updating feeStatus in real-time:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 // Endpoint for registering a new user
 router.post("/register", async (req, res) => {
   try {
@@ -129,6 +156,7 @@ router.put("/update-user/:userId", async (req, res) => {
     shift,
     totalFee,
     feePaid,
+    subscriptionDate,
   } = req.body;
 
   try {
@@ -146,8 +174,6 @@ router.put("/update-user/:userId", async (req, res) => {
     user.address = address || user.address;
     user.phone = phone || user.phone;
     user.shift = shift || user.shift;
-    user.totalFee = totalFee || user.totalFee;
-    user.feePaid = feePaid || user.feePaid;
 
     await user.save();
 
@@ -186,35 +212,35 @@ async function renewSubscription(userId) {
   }
 }
 
-// Schedule job to update feeStatus for all users monthly
-schedule.scheduleJob("0 0 0 1 * *", async () => {
-  try {
-    // Get all users
-    const users = await User.find();
+// // Schedule job to update feeStatus for all users monthly
+// schedule.scheduleJob("0 0 0 1 * *", async () => {
+//   try {
+//     // Get all users
+//     const users = await User.find();
 
-    // Update feeStatus for each user
-    users.forEach(async (user) => {
-      // Check if a month has passed since the last fee update
-      const lastFeeUpdate = user.lastFeeUpdate || user.createdAt;
-      const oneMonthAgo = new Date();
-      oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+//     // Update feeStatus for each user
+//     users.forEach(async (user) => {
+//       // Check if a month has passed since the last fee update
+//       const lastFeeUpdate = user.lastFeeUpdate || user.createdAt;
+//       const oneMonthAgo = new Date();
+//       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-      if (lastFeeUpdate < oneMonthAgo) {
-        // Update feeStatus
-        user.feeStatus = false;
-        user.lastFeeUpdate = new Date(); // Update the lastFeeUpdate field
-        await user.save();
-      }
-    });
+//       if (lastFeeUpdate < oneMonthAgo) {
+//         // Update feeStatus
+//         user.feeStatus = false;
+//         user.lastFeeUpdate = new Date(); // Update the lastFeeUpdate field
+//         await user.save();
+//       }
+//     });
 
-    console.log("FeeStatus updated for all users");
-  } catch (error) {
-    console.error("Error updating feeStatus:", error);
-  }
-});
+//     console.log("FeeStatus updated for all users");
+//   } catch (error) {
+//     console.error("Error updating feeStatus:", error);
+//   }
+// });
 
-// Example of renewing subscription for a specific user (you can call this function when the admin hits the renew button)
-const userIdToRenew = "your_user_id_here";
-//renewSubscription(userIdToRenew);
+// // Example of renewing subscription for a specific user (you can call this function when the admin hits the renew button)
+// const userIdToRenew = "your_user_id_here";
+// //renewSubscription(userIdToRenew);
 
 module.exports = router;
