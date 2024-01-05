@@ -81,7 +81,11 @@ const {customers}=useContext(UserContext);
                         <header className='text-center text-xl py-1 sticky top-0 bg-navy text-orange-600 border font-bold'>Fee not Paid</header>
                         {/* <hr className='border-black'/> */}
              {
-               customers.filter((data)=>(data.feePaid !== data.totalFee)).map((prop)=>(
+               customers.filter((data)=>(data.feePaid !== data.totalFee ||
+                  (
+                Date.now() >= new Date(new Date(data.subscriptionDate)).setDate(new Date(data.subscriptionDate).getDate() + 30)
+              )
+               )).map((prop)=>(
                      <CustomerCard 
                 key={prop._id}
              name={prop.username}
