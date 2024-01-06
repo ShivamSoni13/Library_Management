@@ -28,16 +28,65 @@ const RegisterUser = () => {
   );
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'username':
+      case 'father':
+        if (/^[a-zA-Z\s]*$/.test(value) || value === '') {
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        }
+        break;
+        case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setFormData({
+          ...formData,
+          [name]: value,
+          isValidEmail: emailRegex.test(value),
+        });
+        break;
+      case 'age':
+        if (/^\d*$/.test(value) || value === '') {
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        }
+        break;
+      case 'phone':
+        if (/^\d{0,10}$/.test(value) || value === '') {
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        }
+        break;
+      default:
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+    }
   };
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!formData.username.trim() || !formData.father.trim() || !formData.age.trim() || !formData.phone.trim()) {
+      toast.error('All fields are required');
+      return;
+    }
+
+    // Check if email is not valid
+    if (!formData.isValidEmail) {
+      toast.error('Invalid email format');
+      return;
+    }
     try {
       // Make a POST request to the backend API
       await userRequest.post('/register', formData).then(() => {
